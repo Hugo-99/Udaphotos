@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CollectionCoverPhoto" representedClassName="CollectionCoverPhoto" syncable="YES" codeGenerationType="class">
+        <relationship name="collection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotosCollection" inverseName="cover_photo" inverseEntity="PhotosCollection"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PhotoUrls" inverseName="cover_photo" inverseEntity="PhotoUrls"/>
+    </entity>
+    <entity name="PhotosCollection" representedClassName="PhotosCollection" syncable="YES" codeGenerationType="class">
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="published_at" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="total_photos" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="String"/>
+        <relationship name="cover_photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionCoverPhoto" inverseName="collection" inverseEntity="CollectionCoverPhoto"/>
+    </entity>
+    <entity name="PhotoUrls" representedClassName="PhotoUrls" syncable="YES" codeGenerationType="class">
+        <attribute name="full" attributeType="String"/>
+        <attribute name="raw" attributeType="String"/>
+        <attribute name="regular" attributeType="String"/>
+        <attribute name="small" attributeType="String"/>
+        <attribute name="thumb" attributeType="String"/>
+        <relationship name="cover_photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionCoverPhoto" inverseName="urls" inverseEntity="CollectionCoverPhoto"/>
+    </entity>
+</model>
