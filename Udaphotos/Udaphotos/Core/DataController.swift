@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 
 class DataController {
-
     static let shared = DataController(modelName: "Udaphotos")
 
     let persistentContainer: NSPersistentContainer
+    private var isLoaded = false  // Flag to check if stores are loaded
 
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
@@ -22,7 +22,6 @@ class DataController {
 
     init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
-
         backgroundContext = persistentContainer.newBackgroundContext()
     }
 
@@ -35,10 +34,16 @@ class DataController {
     }
 
     func load(completion: (() -> Void)? = nil) {
+        guard !isLoaded else { // Check if already loaded
+            completion?()
+            return
+        }
+
         persistentContainer.loadPersistentStores { storeDescription, error in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+            self.isLoaded = true // Mark stores as loaded
             self.configureContexts()
             completion?()
         }

@@ -13,36 +13,40 @@ enum CollectionAdapter {
         var photosCollections: [PhotosCollection] = []
 
         for collection in collections {
-            let photosCollection = PhotosCollection(context: context)
-            photosCollection.id = collection.id
-            photosCollection.title = collection.title
-            photosCollection.details = collection.details
-            photosCollection.published_at = collection.published_at
-            photosCollection.updated_at = collection.updated_at
-            photosCollection.total_photos = Int64(collection.total_photos)
+            let fetchRequest: NSFetchRequest<PhotosCollection> = PhotosCollection.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", collection.id)
 
-            if let cover = collection.cover_photo {
-                let coverPhoto = CollectionCoverPhoto(context: context)
+            let existingCollections = try? context.fetch(fetchRequest)
 
-                let urls = PhotoUrls(context: context)
-                urls.raw = cover.urls.raw
-                urls.full = cover.urls.full
-                urls.regular = cover.urls.regular
-                urls.small = cover.urls.small
-                urls.thumb = cover.urls.thumb
+            if existingCollections?.isEmpty ?? true {
+                let photosCollection = PhotosCollection(context: context)
+                photosCollection.id = collection.id
+                photosCollection.title = collection.title
+                photosCollection.details = collection.details
+                photosCollection.published_at = collection.published_at
+                photosCollection.updated_at = collection.updated_at
+                photosCollection.total_photos = Int64(collection.total_photos)
 
-                coverPhoto.urls = urls
-                photosCollection.cover_photo = coverPhoto
+                if let cover = collection.cover_photo {
+                    let coverPhoto = CollectionCoverPhoto(context: context)
+
+                    let urls = PhotoUrls(context: context)
+                    urls.raw = cover.urls.raw
+                    urls.full = cover.urls.full
+                    urls.regular = cover.urls.regular
+                    urls.small = cover.urls.small
+                    urls.thumb = cover.urls.thumb
+
+                    coverPhoto.urls = urls
+                    photosCollection.cover_photo = coverPhoto
+                }
+
+                photosCollections.append(photosCollection)
             }
-
-            photosCollections.append(photosCollection)
         }
 
         try? context.save()
 
         return photosCollections
     }
-
 }
-
-

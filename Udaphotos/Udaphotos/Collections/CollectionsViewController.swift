@@ -46,14 +46,12 @@ class CollectionsViewController: UIViewController, NSFetchedResultsControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupFetchedResultController()
-        setupTableView()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        setupCollection()
+        DataController.shared.load {
+            self.setupFetchedResultController()
+            self.setupTableView()
+            self.setupCollection()
+        }
     }
 
     func setupTableView() {
@@ -100,7 +98,7 @@ extension CollectionsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return collections.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CollectionTableViewCell", for: indexPath)
 
