@@ -25,8 +25,8 @@ final class AuthClient: NSObject {
     }
 
     enum Key: String {
-        case secretKey = "adVPu23te_CozI5sDBrbZwF71AqMuk6JWeFiQ_h_NaQ"
-        case accessKey = "b43tXAtYzEhs5ayvvVta5enmwmwDn7PVJG10OTXAWEk"
+        case secretKey = "YOUR_SECRET_KEY"
+        case accessKey = "YOUR_ACCESS_KEY"
     }
 
     enum Attribute: String {
